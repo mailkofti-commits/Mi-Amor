@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>❤️ 30KASIM25 ❤️</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Arial',sans-serif;
+}
+
+body{
+background:linear-gradient(180deg,#ffd6e7,#fff5f8);
+overflow-x:hidden;
+min-height:100vh;
+color:#444;
+}
+
+/* Şifre Ekranı */
+
+#loginScreen{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+padding:20px;
+text-align:center;
+}
+
+#loginScreen h2{
+color:#ff5f9e;
+margin-bottom:10px;
+}
+
+#loginScreen p{
+margin-bottom:15px;
+}
+
+#answer{
+width:280px;
+padding:12px;
+border:none;
+border-radius:20px;
+outline:none;
+text-align:center;
+}
+
+.mainBtn{
+margin-top:10px;
+padding:12px 25px;
+background:#ff8eb7;
+color:white;
+border:none;
+border-radius:20px;
+cursor:pointer;
+font-size:15px;
+}
+
+#error{
+margin-top:12px;
+color:red;
+}
+
+/* Ana Sayfa */
+
+#mainContent{
+display:none;
+padding:20px;
+text-align:center;
+}
+
+.musicBtn{
+position:fixed;
+top:15px;
+right:15px;
+width:55px;
+height:55px;
+border-radius:50%;
+border:none;
+background:white;
+font-size:24px;
+box-shadow:0 0 15px rgba(0,0,0,.15);
+cursor:pointer;
+z-index:999;
+}
+
+.hero{
+margin-top:40px;
+}
+
+.hero img{
+width:90%;
+max-width:350px;
+border-radius:25px;
+box-shadow:0 0 25px rgba(255,105,180,.3);
+animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0);}
+50%{transform:translateY(-10px);}
+100%{transform:translateY(0);}
+}
+
+.hero h1{
+margin-top:20px;
+color:#ff4d8d;
+}
+
+/* Butonlar */
+
+.cards{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin-top:30px;
+}
+
+.cardBtn{
+background:#ff9cbc;
+color:white;
+padding:15px;
+border:none;
+border-radius:15px;
+cursor:pointer;
+font-size:14px;
+}
+
+/* Modal */
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.85);
+justify-content:center;
+align-items:center;
+padding:20px;
+z-index:9999;
+}
+
+.modal-content{
+background:white;
+width:100%;
+max-width:450px;
+border-radius:20px;
+padding:15px;
+}
+
+.modal img{
+width:100%;
+border-radius:15px;
+}
+
+.modal h2{
+margin-top:10px;
+color:#ff5f9e;
+}
+
+#memoryText{
+margin-top:15px;
+line-height:1.7;
+font-size:15px;
+}
+
+/* Kalpler */
+
+.heart{
+position:fixed;
+bottom:-50px;
+font-size:25px;
+pointer-events:none;
+animation:fly linear forwards;
+z-index:-1;
+}
+
+@keyframes fly{
+
+0%{
+transform:translateY(0) scale(.3);
+opacity:0;
+}
+
+15%{
+opacity:1;
+}
+
+100%{
+transform:translateY(-120vh) scale(2);
+opacity:0;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Şifre Sayfası -->
+
+<div id="loginScreen">
+
+<h2>❤️ Gizli Soru ❤️</h2>
+
+<p>Sana ilk söylediğim lakap neydi?</p>
+
+<input id="answer" placeholder="Sevgili olunca ama">
+
+<button class="mainBtn" onclick="checkPassword()">
+Aç
+</button>
+
+<div id="error"></div>
+
+</div>
+
+<!-- Ana Sayfa -->
+
+<div id="mainContent">
+
+<button class="musicBtn" onclick="toggleMusic()">
+🎵
+</button>
+
+<div class="hero">
+
+<img src="fox-rabbit.jpg" alt="">
+
+<h1>Biz ❤️</h1>
+
+</div>
+
+<div class="cards" id="cards"></div>
+
+</div>
+
+<!-- Modal -->
+
+<div class="modal" id="modal">
+
+<div class="modal-content">
+
+<img id="modalImg">
+
+<h2 id="modalTitle"></h2>
+
+<p id="memoryText"></p>
+
+<br>
+
+<button class="mainBtn" onclick="closeModal()">
+Kapat
+</button>
+
+</div>
+
+</div>
+
+<!-- Müzik -->
+
+<audio id="bgMusic" loop>
+<source src="music.mp3" type="audio/mp3">
+</audio>
+
+<script>
+
+/* BURAYI DEĞİŞTİR */
+
+const secretAnswer = "tavşanım";
+
+/* 20 ANI */
+
+const memories = [
+
+{
+title:"En Sevdiğin Fotoğrafımız",
+text:"Buraya kendi yazını yaz ❤️"
+},
+{
+title:"İlk Fotoğrafımız",
+text:"Buraya kendi yazını yaz ❤️"
+},
+{
+title:"İlk Maç İzlediğimiz Gün",
+text:"Buraya kendi yazını yaz ❤️"
+},
+{
+title:"Kendi Dünyamı Taşıdığım O Gün",
+text:"Buraya kendi yazını yaz ❤️"
+},
+{
+title:"R?®️😁",
+text:"Buraya kendi yazını yaz ❤️"
+},
+{
+title:"Bize Evli Misiniz Diye Sordukları Gün",
+text:"Buraya kendi yazını yaz ❤️"
+},
+{
+title:"Maymuna Muz Ver! 😂",
+text:"Buraya kendi yazını yaz ❤️"
+},
+{
+title:"En Güzel Selfie",
+text:"Buraya kendi yazını yaz ❤️"
+},
+{
+title:"Komik Anımız",
+text:"Buraya kendi yazını yaz ❤️"
+},
+{
+title:"Legolarımız",
+text:"Buraya kendi yazını yaz ❤️"
+},
+{
+title:"Yağmurun Altında Bir Sohbet",
+text:"Buraya kendi yazını yaz ❤️"
+},
+{
+title:"En Güzel Alışveriş Günü",
+text:"Buraya kendi yazını yaz ❤️"
+},
+{
+title:"İlk Yılbaşımız",
+text:"Buraya kendi yazını yaz ❤️"
+},
+{
+title:"Mutluluğun Resmi",
+text:"Buraya kendi yazını yaz ❤️"
+},
+{
+title:"Beyaz Bize Yakışıyor",
+text:"Buraya kendi yazını yaz ❤️"
+},
+{
+title:"İlk Yılbaşımız",
+text:"Buraya kendi yazını yaz ❤️"
+},
+{
+title:"İlk Günümüz",
+text:"Buraya kendi yazını yaz ❤️"
+},
+{
+title:"Unutulmaz Gün",
+text:"Buraya kendi yazını yaz ❤️"
+},
+{
+title:"Seninle Her Gün Özel",
+text:"Buraya kendi yazını yaz ❤️"
+},
+{
+title:"En Güzel Beşiktaş'ın Çocukları Sever",
+text:"Buraya kendi yazını yaz ❤️"
+}
+
+];
+
+/* Şifre */
+
+function checkPassword(){
+
+const value =
+document.getElementById("answer")
+.value
+.toLowerCase()
+.trim();
+
+if(value === secretAnswer.toLowerCase()){
+
+document.getElementById("loginScreen").style.display="none";
+
+document.getElementById("mainContent").style.display="block";
+
+document.getElementById("bgMusic").play();
+
+}else{
+
+document.getElementById("error").innerHTML =
+"❌ Yanlış cevap, bir daha dene BALIMM.";
+
+}
+
+}
+
+/* Butonlar */
+
+const cards =
+document.getElementById("cards");
+
+for(let i=0;i<20;i++){
+
+cards.innerHTML += `
+<button
+class="cardBtn"
+onclick="openMemory(${i+1})">
+${memories[i].title}
+</button>
+`;
+
+}
+
+cards.innerHTML += `
+<button
+class="cardBtn"
+onclick="randomMemory()">
+🎲 Rastgele BİZ
+</button>
+`;
+
+/* Anı Aç */
+
+function openMemory(id){
+
+document.getElementById("modal").style.display="flex";
+
+document.getElementById("modalImg").src =
+`photos${id}.jpg`;
+
+document.getElementById("modalTitle").innerText =
+memories[id-1].title;
+
+document.getElementById("memoryText").innerText =
+memories[id-1].text;
+
+}
+
+function closeModal(){
+
+document.getElementById("modal").style.display="none";
+
+}
+
+function randomMemory(){
+
+const random =
+Math.floor(Math.random()*20)+1;
+
+openMemory(random);
+
+}
+
+/* Müzik */
+
+let playing = true;
+
+function toggleMusic(){
+
+const music =
+document.getElementById("bgMusic");
+
+if(playing){
+
+music.pause();
+
+}else{
+
+music.play();
+
+}
+
+playing = !playing;
+
+}
+
+/* Kalpler */
+
+function createHeart(){
+
+const heart =
+document.createElement("div");
+
+heart.classList.add("heart");
+
+heart.innerHTML =
+Math.random() > 0.5 ? "💗" : "🤍";
+
+heart.style.left =
+Math.random()*100 + "vw";
+
+heart.style.animationDuration =
+(5 + Math.random()*4) + "s";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>{
+heart.remove();
+},9000);
+
+}
+
+setInterval(createHeart,250);
+
+</script>
+
+</body>
+</html>
